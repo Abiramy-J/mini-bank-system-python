@@ -128,7 +128,7 @@ def create_customer_account():
         if mobile_no.isdigit() and len(mobile_no)==10 and (mobile_no.startswith("07") or mobile_no.startswith("021")) :
             break
         else:
-            print("⚠️Enter valid 10 digit mobile number that start with '077' or '021'!")
+            print("⚠️Enter valid 10 digit mobile number that start with '07' or '021'!")
     while True:
         try:
             initial_balance = float(input("Enter initial balance: "))
@@ -239,6 +239,11 @@ def delete_line_from_line(filename,keyword):
 def delete_customer_account():
     print("====Delete Customer Account===")
     customer_id=input("Enter the Customer ID to delete: ")
+    #confirmation for deletion 
+    confirm=input(f"are you sure you want to delete the customer ID{customer_id}? yes/no :")
+    if confirm != "yes":
+        print("Customer Id deletion canceled")
+        return
     
     try:
         with open("customers.txt","r")as file:
@@ -541,13 +546,13 @@ def change_customer_password():
             if parts[0] == customer_ID and parts[1] == customer_password:
                 #found the user, now ask for new password in a loop
                 while True:
-                    print("\nNew password must be exactly 8 characters and include at least 1 number.")
+                    print("\nNew password must be exactly 6 characters and include at least 1 number.")
                     new_password = input("Enter your new password: ").strip()
                     confirm_password = input("Re-enter your new password: ").strip()
 
                     #Validate password length
-                    if len(new_password) != 8:
-                        print("❌Password must be exactly 8 characters.")
+                    if len(new_password) != 6:
+                        print("❌Password must be exactly 6 characters.")
                         continue
 
                     #Check for at least one number
@@ -605,7 +610,8 @@ def admin_menu():
         print("4.Update customer")
         print("5.Delete customer account")
         print("6.Change customer password")
-        print("7.Log out")
+        print("7.Display customer list")
+        print("8.Log out")
         choice = input("Enter your choice in Admin Menu:")
 
         if choice == "1":
@@ -621,6 +627,8 @@ def admin_menu():
         elif choice == "6":
             change_customer_password()
         elif choice == "7":
+            display_customer_list()
+        elif choice == "8":
             print("👋 Admin logged out successfully. See you soon!")
             break
         else:
@@ -654,6 +662,20 @@ def customer_menu(customer_id):
             print("Invalid choice. Please try again.")
 
 
+def display_customer_list():
+    print("==== Display Customer List===")
+    try:
+        with open("customers.txt","r")as file:
+            lines=file.readlines()
+            if not lines:
+                    print("No customer records found")
+                    return
+        for line in lines:
+            parts=line.strip().split(",")
+            if len(parts)>=2:
+                print(f"{parts[0]}:{parts[1]}")
+    except FileNotFoundError:
+        print("customer.txt file not found")        
 
 
 main_menu()               
