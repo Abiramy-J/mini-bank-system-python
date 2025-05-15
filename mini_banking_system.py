@@ -208,7 +208,7 @@ def update_customer_details():
                     if mobile_no.isdigit() and len(mobile_no)==10 and (mobile_no.startswith("07") or mobile_no.startswith("021")):
                         break
                     else:
-                        print("⚠️Enter valid 10 digit mobile number that start with '077' or '021'!")
+                        print("⚠️Enter valid 10 digit mobile number that start with '07' or '021'!")
                 updated_line = f"{customer_id},{name},{age},{nic},{address},{email},{mobile_no},{get_account_number(customer_id)}"
                 updated_lines.append(updated_line + "\n")
             else:
